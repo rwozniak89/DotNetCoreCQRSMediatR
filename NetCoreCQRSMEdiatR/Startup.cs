@@ -14,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 using NetCoreCQRSMEdiatR.Mapping;
 using MediatR;
 using NetCoreCQRSMEdiatR.Repositories;
+using FluentValidation;
+using NetCoreCQRSMEdiatR.PipelineBehaviors;
 
 namespace NetCoreCQRSMEdiatR
 {
@@ -33,6 +35,9 @@ namespace NetCoreCQRSMEdiatR
             services.AddSingleton<IOrdersRepository, OrdersRepository>();
             services.AddSingleton<IMapper, Mapper>();
             services.AddMediatR(typeof(Startup));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
+
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 
-namespace ExampleMediatR.Extensions
+namespace NetCoreCQRSMEdiatR.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
