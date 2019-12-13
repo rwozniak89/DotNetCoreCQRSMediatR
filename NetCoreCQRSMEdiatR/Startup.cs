@@ -16,6 +16,7 @@ using MediatR;
 using NetCoreCQRSMEdiatR.Repositories;
 using FluentValidation;
 using NetCoreCQRSMEdiatR.PipelineBehaviors;
+using NetCoreCQRSMEdiatR.Repositories.Cached;
 
 namespace NetCoreCQRSMEdiatR
 {
@@ -32,12 +33,12 @@ namespace NetCoreCQRSMEdiatR
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ICustomersRepository, CustomersRepository>();
+            services.Decorate<ICustomersRepository, CachedCustomersRepository>();
             services.AddSingleton<IOrdersRepository, OrdersRepository>();
             services.AddSingleton<IMapper, Mapper>();
             services.AddMediatR(typeof(Startup));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
-
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
